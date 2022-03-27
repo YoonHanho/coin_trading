@@ -7,7 +7,7 @@ import sqlite3
 import requests
 
 # 라인 메신저 토큰
-ACCESS_TOKEN = '2VzcPCiEZm91HSQs6W2OqIqhPgETIFqthqKkL4lz550' 
+ACCESS_TOKEN = 'YOUR KEY' 
 
 
 # LINE 메시지 발송 
