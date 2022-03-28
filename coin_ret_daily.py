@@ -40,7 +40,7 @@ res.columns = ['start', 'end']
 res['start'] = res['start'].astype(int)
 res['end'] = res['end'].astype(int)
 
-res['profit'] = res['start'] - res['end']
+res['profit'] = res['end'] - res['start']
 res['ret'] = res['profit'] / res['start'] 
 
 res['winloss'] = np.where(res['profit'] > 0, 1, np.where(res['profit'] == 0, 0, -1))
