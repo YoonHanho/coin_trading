@@ -191,34 +191,34 @@ print("="*55)
 
 
 if MARKET_SIGNAL and up_coin_rate <= 0.5:
-	msg = "코인 거래 중단 : 상승종목 비중 {:,.1f}% ".format(up_coin_rate*100)
-	print(msg)
-	send_msg(msg)
+    msg = "코인 거래 중단 : 상승종목 비중 {:,.1f}% ".format(up_coin_rate*100)
+    print(msg)
+    send_msg(msg)
   
 else: 
 
-	for ticker in tickers: 
+    for ticker in tickers: 
 
-		try: 
-			current_price = pyupbit.get_current_price(ticker)
-			target_price = get_target_price(ticker)
+        try: 
+	    current_price = pyupbit.get_current_price(ticker)
+	    target_price = get_target_price(ticker)
 
-			if bull_market(ticker) and \
+	    if bull_market(ticker) and \
                current_price > target_price and \
                volume_up(ticker) and  \
                COINS[ticker]==0 and \
                max_buy_coins < MAX_BUY_COINS:
                    
-				print("\n매수 시그널 : ", ticker)
-				COINS[ticker] = 1      
-				max_buy_coins += 1  
-				upbit.buy_market_order(ticker, BUY_AMOUT)   
-				print("max_buy_coins : ", max_buy_coins)
-				time.sleep(1)
+		    print("\n매수 시그널 : ", ticker)
+		    COINS[ticker] = 1      
+		    max_buy_coins += 1  
+		    upbit.buy_market_order(ticker, BUY_AMOUT)   
+		    print("max_buy_coins : ", max_buy_coins)
+		    time.sleep(1)
 
-		except:
-			msg = "연산 중 오류가 발생했습니다. ==> " + ticker
-			send_msg(msg) 
-			print(msg)
-			time.sleep(1)
-			pass
+         except:
+	     msg = "연산 중 오류가 발생했습니다. ==> " + ticker
+	     send_msg(msg) 
+	     print(msg)
+	     time.sleep(1)
+	     pass
