@@ -124,7 +124,7 @@ def volume_up(ticker):
   h = datetime.now().hour
   df = pyupbit.get_ohlcv(ticker)
   ma5 = df['volume'].iloc[-6:-1].mean()
-  volume = df['volume'].iloc[-1] / h * 24  # 24시간 단위로 거래량 환나나
+  volume = df['volume'].iloc[-1] / h * 24  # 24시간 단위로 거래량 환산
 
   if volume > ma5:
       #print("{} => 거래량 증가".format(ticker))
