@@ -1,1 +1,1 @@
-# coing traidng
+# coin trading
