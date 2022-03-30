@@ -1,4 +1,4 @@
-# 포지션 청산 :보유코인을 시장가로 젼량 매도
+# 포지션 청산 :보유코인을 시장가로 전량 매도
 import pyupbit
 
 import pandas as pd
