@@ -10,26 +10,45 @@ import pprint
 import requests
 
 # 라인 메신저 토큰
-ACCESS_TOKEN = '2VzcPCiEZm91HSQs6W2OqIqhPgETIFqthqKkL4lz550' 
+ACCESS_TOKEN = """HERE'S YOUR KEY""" 
 
 # 업비트 주문 API 계정 생성 
-access_key = "iIJ2AmMNWPGvld906bI2u7MlUDDXSBtYiI2TkJBJ"
-secret_key = "sM7DAeUoqI55HTltB3aONYTVrWM9CTFxFMhzSQdo"
+access_key = """HERE'S YOUR KEY"""
+secret_key = """HERE'S YOUR KEY"""
 upbit = pyupbit.Upbit(access_key, secret_key)
 
 # 손절율 : 5% > 3% 하향 (어제 종가 대비, 현재 가격) 
 STOP_LOSS_RATE = 0.03 
 
-# 손절율 터치 계산
-def stop_loss(ticker):
-    df = pyupbit.get_ohlcv(ticker)    
-    today_open = df.iloc[-1]['open']
-    price = pyupbit.get_current_price(ticker)
-    
-    if price < today_open * ( 1 - STOP_LOSS_RATE ):
-        return True
-    else:
-        return False        
+# 손절율 터치 계산 : 매수가격 대비 계산 
+def stop_loss(ticker):  
+
+  def get_ticker_prices(ticker):
+    ticker = ticker.split('-')[1]    # KRW-ETH => ETH
+    orderbook = upbit.get_balances()
+    for order in orderbook:
+      if order['currency'] == ticker:
+        return float(order['avg_buy_price']), float(order['balance'])
+      else:
+        pass 
+  
+  price = pyupbit.get_current_price(ticker)
+  avg_buy_price, balance = get_ticker_prices(ticker)
+
+  price_buy = avg_buy_price * balance  # 매수가격 
+  price_now = price * balance          # 현재가걱
+  profit_amt = price_now - price_buy  
+  profit_pct = profit_amt / price_buy * 100
+
+  print(price_buy, price_now, profit_amt, profit_pct)
+
+  if profit_pct < -3:
+    return True
+  else:
+    return False
+
+
+
 
 # 코인 시장가 전량 매도 금액 계산 (원화) 
 def get_sell_unit(ticker):
