@@ -37,6 +37,3 @@ if len(tickers) >= 1:
   for ticker in tickers:
     print("포지션 정리 매도 : ", ticker)
     upbit.sell_market_order(ticker, get_sell_unit(ticker))  
-
-# 손절 로직 
-# 잔고 평가 평가 로직 필요 
