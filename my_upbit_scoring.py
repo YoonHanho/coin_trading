@@ -15,9 +15,8 @@ from datetime import datetime
 import time
 
 import pyupbit
-import pprint
 
-# 조회만 되는 키 
+# 업비트 키 
 access_key = "HERE'S YOUR KEY"
 secret_key = "HERE'S YOUR KEY"
 
@@ -83,33 +82,36 @@ def get_coin_score(ticker):
 
   return price_score, volume_score, range_score, trade_score
 
-tickers = pyupbit.get_tickers(fiat="KRW")
 
-coin_score = []
-for ticker in tickers:
-  try:
-    p, v, r, t = get_coin_score(ticker)
-    coin_score.append([ticker, p, v, r, t])
-  except:
-    print("실행오류 : ", ticker)
-    pass 
-  time.sleep(0.5)
+def coin_scores():
 
-res = pd.DataFrame(coin_score)
-res.columns = ['ticker', 'price', 'volume', 'range', 'trade']
+    tickers = pyupbit.get_tickers(fiat="KRW")
 
-# 거래금액 상대 순위 점수 
-res['trade'] = (res['trade'].rank(pct=True) * 5).astype(int) 
+    coin_score = []
+    for ticker in tickers:
+      try:
+        p, v, r, t = get_coin_score(ticker)
+        coin_score.append([ticker, p, v, r, t])
+      except:
+        print("실행오류 : ", ticker)
+        pass 
+      time.sleep(0.5)
 
-# 총점 
-res['total_score'] = res.iloc[:,1:].sum(axis=1)
+    res = pd.DataFrame(coin_score)
+    res.columns = ['ticker', 'price', 'volume', 'range', 'trade']
 
-# 최종 결과 파일
-score_final = res.sort_values(by='total_score', ascending=False).reset_index(drop=True)
+    # 거래금액 상대 순위 점수 
+    res['trade'] = (res['trade'].rank(pct=True) * 5).astype(int) 
 
-# 상위 10종목
-score_final.iloc[:10]
+    # 총점 
+    res['total_score'] = res.iloc[:,1:].sum(axis=1)
 
-# 하위 10종목 
-score_final.iloc[-10:]
+    # 최종 결과 파일
+    score_final = res.sort_values(by='total_score', ascending=False).reset_index(drop=True)
 
+    return score_final
+
+
+if __name__ == '__main__':
+    data = coin_scores()
+    
