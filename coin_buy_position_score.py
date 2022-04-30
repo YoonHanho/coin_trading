@@ -14,11 +14,11 @@ import requests
 import coin_score
 
 # 라인 메신저 토큰
-ACCESS_TOKEN = '2VzcPCiEZm91HSQs6W2OqIqhPgETIFqthqKkL4lz550' 
+ACCESS_TOKEN = "HERE'S YOUR KEY" 
 
 # 업비트 주문 API 계정 생성 
-access_key = "iIJ2AmMNWPGvld906bI2u7MlUDDXSBtYiI2TkJBJ"
-secret_key = "sM7DAeUoqI55HTltB3aONYTVrWM9CTFxFMhzSQdo"
+access_key = "HERE'S YOUR KEY"
+secret_key = "HERE'S YOUR KEY"
 upbit = pyupbit.Upbit(access_key, secret_key)
 
 
